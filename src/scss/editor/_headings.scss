@@ -1,0 +1,17 @@
+.markdown-rendered, .cm-sizer {
+  h1, .cm-header-1 { color: var(--atom-red); font-weight: 700; }
+  h2, .cm-header-2 { color: var(--atom-orange); font-weight: 700; }
+  h3, .cm-header-3 { color: var(--atom-yellow); font-weight: 600; }
+  h4, .cm-header-4 { color: var(--atom-green); font-weight: 600; }
+  h5, .cm-header-5 { color: var(--atom-blue); font-weight: 600; }
+  h6, .cm-header-6 { color: var(--atom-purple); font-weight: 600; }
+}
+
+body.atom-mono-headings {
+  .markdown-rendered, .cm-sizer {
+    h1, h2, h3, h4, h5, h6,
+    .cm-header-1, .cm-header-2, .cm-header-3, .cm-header-4, .cm-header-5, .cm-header-6 {
+      color: var(--text-normal);
+    }
+  }
+}

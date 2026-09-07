@@ -1,0 +1,13 @@
+.table-view-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    border-bottom: 2px solid var(--background-modifier-border);
+    color: var(--text-normal);
+  }
+
+  td {
+    border-bottom: 1px solid var(--background-modifier-border);
+  }
+}

@@ -1,0 +1,26 @@
+.callout {
+  border-radius: 6px;
+  border-left: 4px solid var(--text-accent);
+  background-color: var(--background-secondary);
+  padding: 12px 16px;
+
+  &[data-callout="info"] {
+    border-left-color: var(--atom-blue);
+    background-color: hsla(207, 82%, 66%, 0.08);
+  }
+
+  &[data-callout="warning"] {
+    border-left-color: var(--atom-yellow);
+    background-color: hsla(39, 67%, 69%, 0.08);
+  }
+
+  &[data-callout="danger"] {
+    border-left-color: var(--atom-red);
+    background-color: hsla(355, 65%, 65%, 0.08);
+  }
+
+  &[data-callout="success"] {
+    border-left-color: var(--atom-green);
+    background-color: hsla(95, 38%, 62%, 0.08);
+  }
+}

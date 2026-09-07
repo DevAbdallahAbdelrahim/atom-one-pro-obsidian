@@ -1,0 +1,14 @@
+.cm-gutters {
+  background-color: var(--background-primary);
+  color: var(--text-faint);
+  border-right: 1px solid var(--background-modifier-border);
+}
+
+.cm-activeLineGutter {
+  color: var(--text-normal);
+  background-color: var(--interactive-hover);
+}
+
+.cm-activeLine {
+  background-color: hsla(220, 13%, 24%, 0.3);
+}

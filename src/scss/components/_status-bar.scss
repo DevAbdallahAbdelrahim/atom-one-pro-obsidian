@@ -1,0 +1,11 @@
+.status-bar {
+  background-color: var(--status-bar-background);
+  border-top: 1px solid var(--background-modifier-border);
+  color: var(--text-muted);
+  font-size: 0.8em;
+}
+
+.titlebar {
+  background-color: var(--titlebar-background);
+  border-bottom: 1px solid var(--background-modifier-border);
+}

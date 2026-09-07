@@ -1,0 +1,15 @@
+body {
+  font-family: var(--font-interface, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.workspace-leaf,
+.workspace-split,
+.workspace-tabs {
+  border-color: var(--background-modifier-border);
+}
+
+::selection {
+  background-color: var(--interactive-selected);
+}

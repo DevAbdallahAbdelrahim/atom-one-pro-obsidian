@@ -1,0 +1,13 @@
+[package]
+name = "atom-builder"
+version = "1.0.0"
+edition = "2021"
+
+[dependencies]
+grass = "0.13"
+notify = "6.1"
+dotenvy = "0.15"
+
+[[test]]
+name = "scss_build_test"
+path = "tests/scss_build_test.rs"

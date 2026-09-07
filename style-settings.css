@@ -1,0 +1,25 @@
+/* @settings
+name: Atom One Pro Settings
+id: atom-one-pro
+settings:
+    - id: atom-heading-colors
+      name: Headings Theme Spectrum
+      type: class-select
+      default: atom-rainbow-headings
+      options:
+          - label: Atom One Signature Rainbow Headings
+            value: atom-rainbow-headings
+          - label: Monochromatic Minimal
+            value: atom-mono-headings
+
+    - id: atom-tab-accent
+      name: Enable Active Tab Top Accent Border
+      description: Show the signature Atom One colored line on active tab
+      type: class-toggle
+      default: true
+
+    - id: atom-code-font
+      name: Code Monospace Font
+      type: font
+      default: 'JetBrains Mono, Fira Code, monospace'
+*/

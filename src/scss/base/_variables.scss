@@ -1,0 +1,43 @@
+.theme-dark {
+    --atom-bg-h: 220;
+    --atom-bg-s: 13%;
+
+    --background-primary: hsl(var(--atom-bg-h), var(--atom-bg-s), 18%);
+    --background-primary-alt: hsl(var(--atom-bg-h), var(--atom-bg-s), 16%);
+    --background-secondary: hsl(var(--atom-bg-h), var(--atom-bg-s), 15%);
+    --background-secondary-alt: hsl(var(--atom-bg-h), var(--atom-bg-s), 13%);
+
+    --background-modifier-border: #333842;
+    --background-modifier-border-hover: #4b5263;
+
+    --text-normal: #abb2bf;
+    --text-muted: #828b99;
+    --text-faint: #5c6370;
+    --text-accent: #61afef;
+
+    --atom-red: #e06c75;
+    --atom-orange: #d19a66;
+    --atom-yellow: #e5c07b;
+    --atom-green: #98c379;
+    --atom-cyan: #56b6c2;
+    --atom-blue: #61afef;
+    --atom-purple: #c678dd;
+    --atom-comment: #5c6370;
+}
+
+.theme-light {
+    --background-primary: #fafafa;
+    --background-secondary: #eaeaeb;
+    --text-normal: #383a42;
+    --text-muted: #696c77;
+    --text-accent: #4078f2;
+
+    --atom-red: #e45649;
+    --atom-orange: #986801;
+    --atom-yellow: #c18401;
+    --atom-green: #50a14f;
+    --atom-cyan: #0184bc;
+    --atom-blue: #4078f2;
+    --atom-purple: #a626a4;
+    --atom-comment: #a0a1a7;
+}

@@ -1,251 +1,347 @@
 /* ==========================================================================
-   Atom One Pro Obsidian  (Light & Dark)
-   With Soft, Highly Readable Text & Balanced Sidebar Colors
+   Atom One Pro Theme for Obsidian v2.0.0
+   Built with Native Rust Engine (Cross-Platform & Zero Node.js)
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   1. Atom One Light Mode
-   -------------------------------------------------------------------------- */
-.theme-light {
-  /* الخلفيات الأساسية */
-  --background-primary: #FAFAFA !important;
-  --background-primary-alt: #FAFAFA !important;
-  --background-secondary: #EAEAEB !important;
-  --background-secondary-alt: #EAEAEB !important;
-
-  /* حواف هادئة للمود الفاتح */
-  --background-modifier-border: #D0D0D2 !important;
-  --background-modifier-border-hover: #A0AAB5 !important;
-  --background-modifier-border-focus: #708090 !important;
-  --background-modifier-form-field: #FFFFFF !important;
-
-  /* النصوص وتوضيح خطوط الملفات */
-  --text-normal: #2A2C33 !important;
-  --text-muted: #555863 !important;
-  --text-faint: #7A7D8A !important;
-  --text-disabled: #A0A1A7 !important;
-  --text-accent: #4A6B94 !important;
-  --text-accent-hover: #355275 !important;
-
-  --nav-item-color: #4B4E5A !important;
-  --nav-item-color-hover: #111215 !important;
-  --nav-item-color-active: #4A6B94 !important;
-
-  --text-selection: #526FFF22 !important;
-  --text-highlight-bg: #526FFF22 !important;
-
-  /* العناصر التفاعلية */
-  --interactive-accent: #4A6B94 !important;
-  --interactive-accent-hover: #355275 !important;
-  --interactive-hover: #E2E2E3 !important;
-  --interactive-selected: #D5D5D8 !important;
-
-  --titlebar-background: #EAEAEB !important;
-  --status-bar-background: #EAEAEB !important;
-  --tab-background-active: #FAFAFA !important;
-  --tab-container-background: #EAEAEB !important;
-
-  /* البرمجة والعناوين */
-  --code-background: #F5F5F5 !important;
-  --code-normal: #383A42 !important;
-  --code-comment: #A0A1A7 !important;
-  --code-keyword: #A626A4 !important;
-  --code-function: #4078F2 !important;
-  --code-string: #50A14F !important;
-  --code-number: #986801 !important;
-  --code-property: #E45649 !important;
-  --code-operator: #0184BC !important;
-
-  --h1-color: #E45649 !important;
-  --h2-color: #E45649 !important;
-  --h3-color: #E45649 !important;
-  --h4-color: #E45649 !important;
-  --h5-color: #E45649 !important;
-  --h6-color: #E45649 !important;
-}
-
-/* --------------------------------------------------------------------------
-   2. Atom One Dark Mode
-   -------------------------------------------------------------------------- */
 .theme-dark {
-  /* الخلفيات الأساسية */
-  --background-primary: #282C34 !important;
-  --background-primary-alt: #282C34 !important;
-  --background-secondary: #21252B !important;
-  --background-secondary-alt: #21252B !important;
-
-  /* حواف هادئة غير فاقعة */
-  --background-modifier-border: #333842 !important;
-  --background-modifier-border-hover: #4B5263 !important;
-  --background-modifier-border-focus: #5C6370 !important;
-  --background-modifier-form-field: #21252B !important;
-
-  /* تعديل إضاءة الخطوط للتخلص من البهتان مع الحفاظ على الهدوء */
-  --text-normal: #B0B8C5 !important;  /* نص أساسي أوضح بلمسة هادئة */
-  --text-muted: #828B99 !important;   /* رفع إضاءة النصوص الفرعية */
-  --text-faint: #636B78 !important;
-  --text-disabled: #5C6370 !important;
-  --text-accent: #61AFEF !important;
-  --text-accent-hover: #82C2F5 !important;
-
-  /* تخصيص لون قائمة الملفات والأيقونات الشانبية */
-  --nav-item-color: #A0A8B6 !important;
-  --nav-item-color-hover: #E5C07B !important;
-  --nav-item-color-active: #61AFEF !important;
-
-  --text-selection: #3E4451 !important;
-  --text-highlight-bg: #3E4451 !important;
-
-  /* ألوان التفاعل */
-  --interactive-accent: #3B5278 !important;
-  --interactive-accent-hover: #4C6A9C !important;
-  --interactive-hover: #2C313A !important;
-  --interactive-selected: #2C313A !important;
-
-  --titlebar-background: #21252B !important;
-  --status-bar-background: #21252B !important;
-  --tab-background-active: #282C34 !important;
-  --tab-container-background: #21252B !important;
-
-  /* البرمجة والعناوين */
-  --code-background: #21252B !important;
-  --code-normal: #ABB2BF !important;
-  --code-comment: #5C6370 !important;
-  --code-keyword: #C678DD !important;
-  --code-function: #61AFEF !important;
-  --code-string: #98C379 !important;
-  --code-number: #D19A66 !important;
-  --code-property: #E06C75 !important;
-  --code-operator: #56B6C2 !important;
-
-  --h1-color: #E06C75 !important;
-  --h2-color: #D19A66 !important;
-  --h3-color: #E5C07B !important;
-  --h4-color: #98C379 !important;
-  --h5-color: #61AFEF !important;
-  --h6-color: #C678DD !important;
+    --atom-bg-h: 220;
+    --atom-bg-s: 13%;
+    --background-primary: hsl(var(--atom-bg-h), var(--atom-bg-s), 18%);
+    --background-primary-alt: hsl(var(--atom-bg-h), var(--atom-bg-s), 16%);
+    --background-secondary: hsl(var(--atom-bg-h), var(--atom-bg-s), 15%);
+    --background-secondary-alt: hsl(var(--atom-bg-h), var(--atom-bg-s), 13%);
+    --background-modifier-border: #333842;
+    --background-modifier-border-hover: #4b5263;
+    --text-normal: #abb2bf;
+    --text-muted: #828b99;
+    --text-faint: #5c6370;
+    --text-accent: #61afef;
+    --atom-red: #e06c75;
+    --atom-orange: #d19a66;
+    --atom-yellow: #e5c07b;
+    --atom-green: #98c379;
+    --atom-cyan: #56b6c2;
+    --atom-blue: #61afef;
+    --atom-purple: #c678dd;
+    --atom-comment: #5c6370;
 }
 
-/* --------------------------------------------------------------------------
-   3. تحسين وضوح قائمة الملفات وشريط الأدوات الجانبي (File Explorer)
-   -------------------------------------------------------------------------- */
+.theme-light {
+    --background-primary: #fafafa;
+    --background-secondary: #eaeaeb;
+    --text-normal: #383a42;
+    --text-muted: #696c77;
+    --text-accent: #4078f2;
+    --atom-red: #e45649;
+    --atom-orange: #986801;
+    --atom-yellow: #c18401;
+    --atom-green: #50a14f;
+    --atom-cyan: #0184bc;
+    --atom-blue: #4078f2;
+    --atom-purple: #a626a4;
+    --atom-comment: #a0a1a7;
+}
 
-.nav-file-title,
+body {
+    font-family: var(
+        --font-interface,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        sans-serif
+    );
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+.workspace-leaf,
+.workspace-split,
+.workspace-tabs {
+    border-color: var(--background-modifier-border);
+}
+
+::selection {
+    background-color: var(--interactive-selected);
+}
+
+.workspace-tab-header-container {
+    background-color: var(--tab-container-background);
+    border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.workspace-tab-header {
+    background-color: var(--tab-container-background);
+    color: var(--text-muted);
+    border-right: 1px solid var(--background-modifier-border);
+    transition: all 0.15s ease-in-out;
+}
+.workspace-tab-header:hover {
+    color: var(--text-normal);
+    background-color: var(--interactive-hover);
+}
+.workspace-tab-header.is-active {
+    background-color: var(--tab-background-active);
+    color: var(--text-normal);
+    box-shadow: inset 0 2px 0 0 var(--text-accent);
+}
+
 .nav-folder-title,
+.nav-file-title,
 .tree-item-self {
-  color: var(--nav-item-color) !important;
-  font-weight: 500 !important;
+    color: var(--text-muted);
+    font-weight: 500;
+    border-radius: 4px;
+    padding: 4px 8px;
+    transition:
+        background-color 0.1s ease,
+        color 0.1s ease;
 }
-
-.nav-file-title:hover,
 .nav-folder-title:hover,
+.nav-file-title:hover,
 .tree-item-self:hover {
-  color: var(--text-normal) !important;
+    color: var(--text-normal);
+    background-color: var(--interactive-hover);
+}
+.nav-folder-title.is-active,
+.nav-file-title.is-active,
+.tree-item-self.is-active {
+    color: var(--text-accent);
+    background-color: var(--interactive-selected);
+    font-weight: 600;
 }
 
-/* --------------------------------------------------------------------------
-   4. فواصل وأشرطة هادئة
-   -------------------------------------------------------------------------- */
-
-.editing-toolbar,
-div[class*="toolbar"],
-.workspace-tab-header-container,
-.workspace-tab-header,
-.workspace-leaf-content {
-  border-color: var(--background-modifier-border) !important;
-  box-shadow: none !important;
+.nav-folder-collapse-indicator {
+    color: var(--text-faint);
 }
 
-.workspace-leaf.mod-active {
-  border-color: var(--background-modifier-border-focus) !important;
-}
-
-/* --------------------------------------------------------------------------
-   5. تخطيط الإعدادات التفاعلي والديناميكي (Dynamic Responsive Settings)
-   -------------------------------------------------------------------------- */
-
-.modal.mod-settings .vertical-tab-content,
-.vertical-tab-content {
-  box-sizing: border-box !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  padding: 16px 24px !important;
-  overflow-x: hidden !important;
+.modal.mod-settings .vertical-tab-content {
+    box-sizing: border-box;
+    padding: 20px 28px;
 }
 
 .setting-item {
-  display: flex !important;
-  flex-flow: row wrap !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  gap: 12px 16px !important;
-  width: 100% !important;
-  padding: 12px 0 !important;
-  border-top: 1px solid var(--background-modifier-border) !important;
-  box-sizing: border-box !important;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px 16px;
+    padding: 14px 0;
+    border-top: 1px solid var(--background-modifier-border);
 }
-
 .setting-item:first-child {
-  border-top: none !important;
+    border-top: none;
 }
 
 .setting-item-info {
-  flex: 1 1 240px !important;
-  min-width: 0 !important;
-  max-width: 100% !important;
+    flex: 1 1 240px;
+    min-width: 0;
 }
 
 .setting-item-name {
-  font-size: 0.95em !important;
-  font-weight: 600 !important;
-  color: var(--text-normal) !important;
-  white-space: normal !important;
-  word-break: break-word !important;
-  overflow-wrap: anywhere !important;
-  line-height: 1.4 !important;
+    font-weight: 600;
+    color: var(--text-normal);
 }
 
 .setting-item-description {
-  font-size: 0.85em !important;
-  color: var(--text-muted) !important;
-  white-space: normal !important;
-  word-break: break-word !important;
-  overflow-wrap: anywhere !important;
-  line-height: 1.3 !important;
-  margin-top: 4px !important;
+    font-size: 0.85em;
+    color: var(--text-muted);
+    margin-top: 4px;
 }
 
-.setting-item-control {
-  flex: 0 1 auto !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-  flex-wrap: wrap !important;
-  gap: 8px !important;
-  max-width: 100% !important;
+.status-bar {
+    background-color: var(--status-bar-background);
+    border-top: 1px solid var(--background-modifier-border);
+    color: var(--text-muted);
+    font-size: 0.8em;
 }
 
-/* --------------------------------------------------------------------------
-   6. قواعد التنسيق الموحدة (Syntax Highlighting & Markdown)
-   -------------------------------------------------------------------------- */
+.titlebar {
+    background-color: var(--titlebar-background);
+    border-bottom: 1px solid var(--background-modifier-border);
+}
 
-.cm-s-obsidian span.cm-comment, .token.comment { color: var(--code-comment) !important; font-style: italic; }
-.cm-s-obsidian span.cm-keyword, .token.keyword { color: var(--code-keyword) !important; }
-.cm-s-obsidian span.cm-function, .cm-s-obsidian span.cm-def, .token.function { color: var(--code-function) !important; }
-.cm-s-obsidian span.cm-string, .token.string { color: var(--code-string) !important; }
-.cm-s-obsidian span.cm-number, .cm-s-obsidian span.cm-atom, .token.number { color: var(--code-number) !important; }
-.cm-s-obsidian span.cm-property, .token.property { color: var(--code-property) !important; }
-.cm-s-obsidian span.cm-operator, .token.operator { color: var(--code-operator) !important; }
+.cm-s-obsidian code,
+.cm-s-obsidian pre,
+.markdown-rendered code,
+.markdown-rendered pre {
+    font-family: var(
+        --font-monospace,
+        "JetBrains Mono",
+        "Fira Code",
+        monospace
+    );
+}
 
-/* العناوين */
-.cm-header-1, .markdown-rendered h1 { color: var(--h1-color) !important; font-weight: 700; }
-.cm-header-2, .markdown-rendered h2 { color: var(--h2-color) !important; font-weight: 700; }
-.cm-header-3, .markdown-rendered h3 { color: var(--h3-color) !important; font-weight: 700; }
-.cm-header-4, .markdown-rendered h4 { color: var(--h4-color) !important; font-weight: 700; }
-.cm-header-5, .markdown-rendered h5 { color: var(--h5-color) !important; font-weight: 700; }
-.cm-header-6, .markdown-rendered h6 { color: var(--h6-color) !important; font-weight: 700; }
+.cm-inline-code,
+code {
+    color: var(--atom-orange);
+    background-color: var(--background-secondary);
+    border-radius: 4px;
+    padding: 2px 6px;
+}
 
-/* الروابط والنصوص */
-.cm-s-obsidian span.cm-link, .markdown-rendered a { color: var(--text-accent) !important; text-decoration: none; }
-.cm-s-obsidian span.cm-strong, .markdown-rendered strong { font-weight: 700; }
-.cm-s-obsidian span.cm-em, .markdown-rendered em { font-style: italic; }
+.cm-token-comment,
+.token.comment {
+    color: var(--atom-comment);
+    font-style: italic;
+}
+
+.cm-token-keyword,
+.token.keyword {
+    color: var(--atom-purple);
+}
+
+.cm-token-function,
+.token.function {
+    color: var(--atom-blue);
+}
+
+.cm-token-string,
+.token.string {
+    color: var(--atom-green);
+}
+
+.cm-token-number,
+.token.number {
+    color: var(--atom-orange);
+}
+
+.cm-token-property,
+.token.property {
+    color: var(--atom-red);
+}
+
+.cm-token-operator,
+.token.operator {
+    color: var(--atom-cyan);
+}
+
+.cm-token-type,
+.token.class-name {
+    color: var(--atom-yellow);
+}
+
+.markdown-rendered h1,
+.markdown-rendered .cm-header-1,
+.cm-sizer h1,
+.cm-sizer .cm-header-1 {
+    color: var(--atom-red);
+    font-weight: 700;
+}
+.markdown-rendered h2,
+.markdown-rendered .cm-header-2,
+.cm-sizer h2,
+.cm-sizer .cm-header-2 {
+    color: var(--atom-orange);
+    font-weight: 700;
+}
+.markdown-rendered h3,
+.markdown-rendered .cm-header-3,
+.cm-sizer h3,
+.cm-sizer .cm-header-3 {
+    color: var(--atom-yellow);
+    font-weight: 600;
+}
+.markdown-rendered h4,
+.markdown-rendered .cm-header-4,
+.cm-sizer h4,
+.cm-sizer .cm-header-4 {
+    color: var(--atom-green);
+    font-weight: 600;
+}
+.markdown-rendered h5,
+.markdown-rendered .cm-header-5,
+.cm-sizer h5,
+.cm-sizer .cm-header-5 {
+    color: var(--atom-blue);
+    font-weight: 600;
+}
+.markdown-rendered h6,
+.markdown-rendered .cm-header-6,
+.cm-sizer h6,
+.cm-sizer .cm-header-6 {
+    color: var(--atom-purple);
+    font-weight: 600;
+}
+
+body.atom-mono-headings .markdown-rendered h1,
+body.atom-mono-headings .markdown-rendered h2,
+body.atom-mono-headings .markdown-rendered h3,
+body.atom-mono-headings .markdown-rendered h4,
+body.atom-mono-headings .markdown-rendered h5,
+body.atom-mono-headings .markdown-rendered h6,
+body.atom-mono-headings .markdown-rendered .cm-header-1,
+body.atom-mono-headings .markdown-rendered .cm-header-2,
+body.atom-mono-headings .markdown-rendered .cm-header-3,
+body.atom-mono-headings .markdown-rendered .cm-header-4,
+body.atom-mono-headings .markdown-rendered .cm-header-5,
+body.atom-mono-headings .markdown-rendered .cm-header-6,
+body.atom-mono-headings .cm-sizer h1,
+body.atom-mono-headings .cm-sizer h2,
+body.atom-mono-headings .cm-sizer h3,
+body.atom-mono-headings .cm-sizer h4,
+body.atom-mono-headings .cm-sizer h5,
+body.atom-mono-headings .cm-sizer h6,
+body.atom-mono-headings .cm-sizer .cm-header-1,
+body.atom-mono-headings .cm-sizer .cm-header-2,
+body.atom-mono-headings .cm-sizer .cm-header-3,
+body.atom-mono-headings .cm-sizer .cm-header-4,
+body.atom-mono-headings .cm-sizer .cm-header-5,
+body.atom-mono-headings .cm-sizer .cm-header-6 {
+    color: var(--text-normal);
+}
+
+.cm-gutters {
+    background-color: var(--background-primary);
+    color: var(--text-faint);
+    border-right: 1px solid var(--background-modifier-border);
+}
+
+.cm-activeLineGutter {
+    color: var(--text-normal);
+    background-color: var(--interactive-hover);
+}
+
+.cm-activeLine {
+    background-color: hsla(220deg, 13%, 24%, 0.3);
+}
+
+.callout {
+    border-radius: 6px;
+    border-left: 4px solid var(--text-accent);
+    background-color: var(--background-secondary);
+    padding: 12px 16px;
+}
+.callout[data-callout="info"] {
+    border-left-color: var(--atom-blue);
+    background-color: hsla(207deg, 82%, 66%, 0.08);
+}
+.callout[data-callout="warning"] {
+    border-left-color: var(--atom-yellow);
+    background-color: hsla(39deg, 67%, 69%, 0.08);
+}
+.callout[data-callout="danger"] {
+    border-left-color: var(--atom-red);
+    background-color: hsla(355deg, 65%, 65%, 0.08);
+}
+.callout[data-callout="success"] {
+    border-left-color: var(--atom-green);
+    background-color: hsla(95deg, 38%, 62%, 0.08);
+}
+
+.table-view-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table-view-table th {
+    border-bottom: 2px solid var(--background-modifier-border);
+    color: var(--text-normal);
+}
+.table-view-table td {
+    border-bottom: 1px solid var(--background-modifier-border);
+}
+
+body.atom-tab-accent .workspace-tab-header.is-active {
+    box-shadow: inset 0 2px 0 0 var(--text-accent);
+}

@@ -1,0 +1,21 @@
+.cm-s-obsidian, .markdown-rendered {
+  code, pre {
+    font-family: var(--font-monospace, 'JetBrains Mono', 'Fira Code', monospace);
+  }
+}
+
+.cm-inline-code, code {
+  color: var(--atom-orange);
+  background-color: var(--background-secondary);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.cm-token-comment, .token.comment { color: var(--atom-comment); font-style: italic; }
+.cm-token-keyword, .token.keyword { color: var(--atom-purple); }
+.cm-token-function, .token.function { color: var(--atom-blue); }
+.cm-token-string, .token.string { color: var(--atom-green); }
+.cm-token-number, .token.number { color: var(--atom-orange); }
+.cm-token-property, .token.property { color: var(--atom-red); }
+.cm-token-operator, .token.operator { color: var(--atom-cyan); }
+.cm-token-type, .token.class-name { color: var(--atom-yellow); }
