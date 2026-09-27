@@ -1,0 +1,89 @@
+/* ==========================================================================
+   Inputs & Form Controls — Atom One Pro
+   Covers text/search/number/email/password inputs, textareas, selects,
+   and Obsidian's search-input-container (the Settings search bar, the
+   Community Plugins search, and in-file Tab search all share this one
+   class — one rule set covers all three).
+
+   Rule for this file: paint only — color, border, radius, shadow,
+   transition — with one deliberate, documented exception below.
+   ========================================================================== */
+
+// ---------------------------------------------------------------------
+// 1. Base form fields
+// ---------------------------------------------------------------------
+input[type="text"],
+input[type="search"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+    @include atom-surface;
+    @include no-native-outline;
+    @include atom-focus-ring;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-family: inherit;
+
+    &::placeholder {
+        color: var(--text-muted);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+// ---------------------------------------------------------------------
+// 2. Obsidian search-input-container
+//
+//    The actual bug: input[type="search"] is included in the base rule
+//    above, so its `padding: 6px 12px` shorthand was also landing on
+//    every search input — including ones in this container — shrinking
+//    the left/right padding to 12px regardless of whether an icon or
+//    clear button needed the room. That's what kept causing overlap even
+//    after the old hardcoded padding-left: 28px was removed; removing
+//    the guess didn't matter if something else was still overwriting the
+//    space with a smaller one.
+//
+//    Fixed by reserving space explicitly rather than guessing again:
+//    icon and clear-button size are set once, in base/_variables.scss
+//    (--search-icon-size / --search-clear-button-size, both 14px), and
+//    the padding below is sized to match — 8px inset + 14px icon + 8px
+//    gap = 30px — so the two stay in sync on purpose instead of by
+//    coincidence. No !important needed: .search-input-container input
+//    and the plain input[type="search"] rule above are equally specific,
+//    and this one simply comes later in the file, so it already wins on
+//    the properties it sets without touching the cascade's priority
+//    system at all.
+// ---------------------------------------------------------------------
+.search-input-container {
+    input {
+        @include atom-surface;
+        @include no-native-outline;
+        @include atom-focus-ring;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    // :focus-within (rather than only the input's own :focus) also
+    // catches the moment focus moves to the clear button, so tabbing
+    // from the input to "clear" doesn't visually drop the search bar's
+    // focused state. Untouched by the padding fix above — different
+    // properties, nothing here competes with it.
+    &:focus-within input {
+        border-color: var(--interactive-accent);
+        box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.25);
+    }
+
+    .search-input-clear-button {
+        opacity: 0.6;
+        transition: opacity 0.15s ease;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}

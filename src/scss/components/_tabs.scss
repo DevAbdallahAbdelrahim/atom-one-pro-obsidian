@@ -1,22 +1,43 @@
+/* ==========================================================================
+   Tabs — Atom One Pro
+   The workspace tab strip: its container, individual tab headers, and
+   the active-tab state.
+
+   The container's own border-bottom already existed in the original
+   file — it wasn't actually missing. It was reading as missing because
+   the tab strip and the workspace behind it were both sitting on
+   Obsidian's similar generic grays, so a 1px line between two
+   near-identical surfaces barely registers. base/_variables.scss now
+   gives the strip its own --tab-container-background, one step darker
+   than the panel, so this divider (and the tabs sitting on it) actually
+   reads as a boundary.
+   ========================================================================== */
+
 .workspace-tab-header-container {
-  background-color: var(--tab-container-background);
-  border-bottom: 1px solid var(--background-modifier-border);
+    background-color: var(--tab-container-background);
+    border-bottom: 1px solid var(--background-modifier-border);
 }
 
 .workspace-tab-header {
-  background-color: var(--tab-container-background);
-  color: var(--text-muted);
-  border-right: 1px solid var(--background-modifier-border);
-  transition: all 0.15s ease-in-out;
+    background-color: var(--tab-container-background);
+    color: var(--text-muted);
+    border-right: 1px solid var(--background-modifier-border);
+    transition:
+        background-color 0.15s ease-in-out,
+        color 0.15s ease-in-out;
 
-  &:hover {
-    color: var(--text-normal);
-    background-color: var(--interactive-hover);
-  }
+    &:hover {
+        color: var(--text-normal);
+        background-color: var(--interactive-hover);
+    }
 
-  &.is-active {
-    background-color: var(--tab-background-active);
-    color: var(--text-normal);
-    box-shadow: inset 0 2px 0 0 var(--text-accent);
-  }
+    &.is-active {
+        // --tab-background-active is set to the exact same hex as
+        // --background-primary (base/_variables.scss) — that shared
+        // value is what makes the active tab read as part of the
+        // workspace below it, rather than part of the strip above it.
+        background-color: var(--tab-background-active);
+        color: var(--text-normal);
+        border-top: 2px solid var(--interactive-accent);
+    }
 }

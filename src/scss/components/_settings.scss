@@ -1,34 +1,112 @@
-.modal.mod-settings .vertical-tab-content {
-  box-sizing: border-box;
-  padding: 20px 28px;
-}
+/* ==========================================================================
+   Settings UI — Atom One Pro
+   .setting-item rows, toggle switches, and dropdowns inside Settings,
+   Community Plugins options pages, and the Style Settings plugin pane.
+   ========================================================================== */
 
+// ---------------------------------------------------------------------
+// 1. Setting rows
+// ---------------------------------------------------------------------
 .setting-item {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px 16px;
-  padding: 14px 0;
-  border-top: 1px solid var(--background-modifier-border);
+    border-top: 1px solid var(--background-modifier-border);
+    padding: 16px 0;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 8px;
+    justify-content: space-between;
+    align-items: center;
 
-  &:first-child {
+    &:first-child {
+        border-top: none;
+    }
+
+    .setting-item-info {
+        flex: 1 1 auto;
+        margin-right: 16px;
+
+        .setting-item-name {
+            color: var(--text-normal);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .setting-item-description {
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+    }
+
+    .setting-item-control {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+}
+
+.setting-item-heading {
     border-top: none;
-  }
+    padding-top: 24px;
+    padding-bottom: 8px;
+
+    .setting-item-name {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--interactive-accent);
+    }
 }
 
-.setting-item-info {
-  flex: 1 1 240px;
-  min-width: 0;
+// ---------------------------------------------------------------------
+// 2. Toggle switches
+//    Obsidian's own base styles already handle the knob's geometry
+//    (size, position, the sliding ::after) — this only recolors the
+//    track, so a future Obsidian update to the knob shape can't get out
+//    of sync with an Atom-specific redraw of it here.
+// ---------------------------------------------------------------------
+.checkbox-container {
+    background-color: var(--background-modifier-border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        box-shadow 0.15s ease;
+
+    &:hover {
+        background-color: var(--background-modifier-border-hover);
+    }
+
+    &.is-enabled {
+        background-color: var(--interactive-accent);
+
+        &:hover {
+            background-color: var(--interactive-accent-hover);
+        }
+    }
+
+    &:focus-visible {
+        box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.35);
+        outline: none;
+    }
 }
 
-.setting-item-name {
-  font-weight: 600;
-  color: var(--text-normal);
-}
-
-.setting-item-description {
-  font-size: 0.85em;
-  color: var(--text-muted);
-  margin-top: 4px;
+// ---------------------------------------------------------------------
+// 3. Dropdowns / selects
+//    Obsidian renders these as a plain <select class="dropdown">, and
+//    Chromium (Obsidian's renderer) won't draw ::before/::after on a
+//    <select> — so the caret below is a background-image tinted to
+//    match --text-muted, rather than a pseudo-element.
+// ---------------------------------------------------------------------
+.dropdown {
+    @include atom-surface;
+    @include no-native-outline;
+    @include atom-focus-ring;
+    padding: 4px 28px 4px 10px;
+    font-size: 13px;
+    cursor: pointer;
+    appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235c6370' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }

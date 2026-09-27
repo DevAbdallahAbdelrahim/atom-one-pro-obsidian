@@ -1,43 +1,110 @@
+/* ==========================================================================
+   Variables — Atom One Pro
+   This file must only ever hold variables and custom-property definitions
+   — never selectors. The version this replaces had a set of input-styling
+   rules pasted in here, targeting the exact same selectors as
+   components/_inputs.scss at the exact same specificity. Because Sass (and
+   grass) resolve same-specificity ties by import order, the two files were
+   silently fighting over background/border/padding/box-shadow every time
+   either one was touched — that's the actual mechanism behind styling
+   "dropping off" on hover and focus. Keep component rules out of here.
+   ========================================================================== */
+
+// --------------------------------------------------------------------------
+// 1. SCSS-level palette — compile-time constants
+// --------------------------------------------------------------------------
+$atom-bg-primary:   #282c34; // Main panel / modal / editor background
+$atom-bg-secondary: #21252b; // Settings nav / sidebar background
+$atom-bg-deepest:   #181a1f; // Title bar, status bar, tab strip
+$atom-bg-input:     #1b1d23; // Input & search field background
+$atom-border:       #3e4451; // Borders / separators
+
+$atom-text-primary: #abb2bf; // Primary text
+$atom-text-muted:   #5c6370; // Muted text / icons / comments
+
+$atom-accent:      #61afef; // "Atom blue" — links, active states, functions
+$atom-accent-glow: #528bff; // Atom's cursor/selection blue — focus glow only
+
+// Full syntax accent set, referenced as --atom-* by editor/_headings.scss,
+// editor/_syntax.scss and editor/_callouts.scss.
+$atom-red:    #e06c75;
+$atom-orange: #d19a66;
+$atom-yellow: #e5c07b;
+$atom-green:  #98c379;
+$atom-cyan:   #56b6c2;
+$atom-purple: #c678dd;
+
+// --------------------------------------------------------------------------
+// 2. Runtime custom properties
+//    Maps the palette above onto Obsidian's own variables, plus this
+//    theme's --atom-* accents. If your live project already sets these in
+//    a colors partial that wasn't part of this upload, drop this block
+//    and keep only the $atom-* variables above — just don't end up
+//    defining --background-primary in two places. Since this file
+//    previously defined no variables at all (only the stray input rules
+//    above), something has to be the single source of truth, and this
+//    file's own name is the reason it should be this one.
+// --------------------------------------------------------------------------
 .theme-dark {
-    --atom-bg-h: 220;
-    --atom-bg-s: 13%;
+    --background-primary: #{$atom-bg-primary};
+    --background-primary-alt: #{darken($atom-bg-primary, 2%)};
+    --background-secondary: #{$atom-bg-secondary};
+    --background-secondary-alt: #{$atom-bg-primary};
+    --background-modifier-form-field: #{$atom-bg-input};
+    --background-modifier-border: #{$atom-border};
+    --background-modifier-border-hover: #{lighten($atom-border, 8%)};
+    --background-modifier-border-focus: #{$atom-accent};
 
-    --background-primary: hsl(var(--atom-bg-h), var(--atom-bg-s), 18%);
-    --background-primary-alt: hsl(var(--atom-bg-h), var(--atom-bg-s), 16%);
-    --background-secondary: hsl(var(--atom-bg-h), var(--atom-bg-s), 15%);
-    --background-secondary-alt: hsl(var(--atom-bg-h), var(--atom-bg-s), 13%);
+    --text-normal: #{$atom-text-primary};
+    --text-muted: #{$atom-text-muted};
+    --text-faint: #{darken($atom-text-muted, 12%)};
+    --text-accent: #{$atom-accent};
+    --text-accent-hover: #{lighten($atom-accent, 8%)};
 
-    --background-modifier-border: #333842;
-    --background-modifier-border-hover: #4b5263;
+    --interactive-accent: #{$atom-accent};
+    --interactive-accent-hover: #{$atom-accent-glow};
+    --interactive-accent-rgb: #{red($atom-accent)}, #{green($atom-accent)}, #{blue($atom-accent)};
+    --text-on-accent: #{$atom-bg-primary};
 
-    --text-normal: #abb2bf;
-    --text-muted: #828b99;
-    --text-faint: #5c6370;
-    --text-accent: #61afef;
+    // Destructive actions (components/_buttons.scss .mod-warning). Reuses
+    // $atom-red so "red" still has one source of truth in the theme.
+    --background-modifier-error: #{$atom-red};
+    --background-modifier-error-hover: #{lighten($atom-red, 8%)};
+    --background-modifier-error-rgb: #{red($atom-red)}, #{green($atom-red)}, #{blue($atom-red)};
 
-    --atom-red: #e06c75;
-    --atom-orange: #d19a66;
-    --atom-yellow: #e5c07b;
-    --atom-green: #98c379;
-    --atom-cyan: #56b6c2;
-    --atom-blue: #61afef;
-    --atom-purple: #c678dd;
-    --atom-comment: #5c6370;
-}
+    // Hover/selected washes for nav items (base/_mixins.scss
+    // atom-nav-item) and tabs. A translucent overlay rather than a flat
+    // hex, so it reads correctly sitting on either --background-secondary
+    // or the darker --tab-container-background below.
+    --interactive-hover: rgba(255, 255, 255, 0.05);
+    --interactive-selected: rgba(var(--interactive-accent-rgb), 0.12);
 
-.theme-light {
-    --background-primary: #fafafa;
-    --background-secondary: #eaeaeb;
-    --text-normal: #383a42;
-    --text-muted: #696c77;
-    --text-accent: #4078f2;
+    // Title bar, status bar, and the tab strip all sit one step darker
+    // than the main panel — previously left on Obsidian's own generic
+    // defaults, which is most of why the theme was reading as flat.
+    --titlebar-background: #{$atom-bg-deepest};
+    --status-bar-background: #{$atom-bg-deepest};
+    --tab-container-background: #{$atom-bg-deepest};
+    // Same hex as --background-primary on purpose: that's what makes the
+    // active tab read as part of the workspace below it, not the strip
+    // above it. See components/_tabs.scss.
+    --tab-background-active: #{$atom-bg-primary};
 
-    --atom-red: #e45649;
-    --atom-orange: #986801;
-    --atom-yellow: #c18401;
-    --atom-green: #50a14f;
-    --atom-cyan: #0184bc;
-    --atom-blue: #4078f2;
-    --atom-purple: #a626a4;
-    --atom-comment: #a0a1a7;
+    // Obsidian's own Search-plugin variables. Sizes are set explicitly,
+    // not left to Obsidian's default, so components/_inputs.scss can
+    // reserve matching padding instead of guessing it.
+    --search-icon-color: #{$atom-text-muted};
+    --search-icon-size: 14px;
+    --search-clear-button-color: #{$atom-text-muted};
+    --search-clear-button-size: 14px;
+
+    // This theme's own syntax accents
+    --atom-red: #{$atom-red};
+    --atom-orange: #{$atom-orange};
+    --atom-yellow: #{$atom-yellow};
+    --atom-green: #{$atom-green};
+    --atom-blue: #{$atom-accent};
+    --atom-cyan: #{$atom-cyan};
+    --atom-purple: #{$atom-purple};
+    --atom-comment: #{$atom-text-muted};
 }
