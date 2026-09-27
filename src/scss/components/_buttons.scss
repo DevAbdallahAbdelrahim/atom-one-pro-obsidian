@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Buttons — Atom One Pro
+   Default buttons, primary actions (.mod-cta), and destructive actions
+   (.mod-warning). Every variant locks its focus state through the same
+   shared mixins as inputs/settings/sidebar, so a button can't quietly
+   lose its ring the way inputs previously did.
+   ========================================================================== */
+
+// ---------------------------------------------------------------------
+// 1. الأزرار العادية (Default buttons)
+// ---------------------------------------------------------------------
+button {
+    @include atom-surface($bg: var(--background-secondary));
+    @include no-native-outline;
+    @include atom-focus-ring;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+
+    // atom-surface already reproduces the original border/radius/color.
+    // This adds back the original's own hover elevation on top of the
+    // mixin's shared border-lock, plus — new — an actual :focus state.
+    // The original button had none, so tabbing to it fell straight
+    // through to Chromium's default ring.
+    &:hover {
+        background-color: var(--background-modifier-border-hover);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+// ---------------------------------------------------------------------
+// 2. الأزرار الأساسية، مثل زر "Turn on and reload" (Primary / .mod-cta)
+// ---------------------------------------------------------------------
+button.mod-cta {
+    @include no-native-outline;
+    @include atom-focus-ring;
+    background-color: var(--interactive-accent);
+    color: var(--text-on-accent);
+    border: none;
+    font-weight: 600;
+
+    // The original hover recolored to --text-accent, which resolves to
+    // the exact same blue as the resting background — no visible change,
+    // just the opacity dip. --interactive-accent-hover is a deliberately
+    // distinct shade, so this hover is now a real elevation.
+    &:hover {
+        background-color: var(--interactive-accent-hover);
+    }
+}
+
+// ---------------------------------------------------------------------
+// 3. Destructive actions (.mod-warning) — new. The original file had no
+//    danger-button treatment at all, so Delete / Remove / Uninstall
+//    confirmations were falling back to Obsidian's own default red.
+//    Reuses atom-focus-ring's own accent/glow parameters rather than a
+//    hand-rolled focus block, so the error-red ring stays in sync with
+//    base/_variables.scss if that color ever changes.
+// ---------------------------------------------------------------------
+button.mod-warning {
+    @include no-native-outline;
+    @include atom-focus-ring(
+        $accent: var(--background-modifier-error),
+        $glow-rgb: var(--background-modifier-error-rgb)
+    );
+    background-color: var(--background-modifier-error);
+    color: var(--text-on-accent);
+    border: none;
+    font-weight: 600;
+
+    &:hover {
+        background-color: var(--background-modifier-error-hover);
+    }
+}

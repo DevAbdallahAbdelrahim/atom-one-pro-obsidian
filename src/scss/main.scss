@@ -1,10 +1,13 @@
 @import "./base/variables";
+@import "./base/mixins";
 @import "./base/reset";
 
 @import "./components/tabs";
 @import "./components/sidebar";
 @import "./components/settings";
 @import "./components/status-bar";
+@import "./components/inputs";
+@import "./components/buttons";
 
 @import "./editor/syntax";
 @import "./editor/headings";

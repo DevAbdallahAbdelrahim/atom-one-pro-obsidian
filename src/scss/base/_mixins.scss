@@ -1,0 +1,81 @@
+/* ==========================================================================
+   Mixins — Atom One Pro
+   Shared interaction patterns for every interactive control in the theme.
+   Centralising these is what actually fixes the reported bug: previously
+   each component declared its own one-off :hover/:focus rules (or, for
+   the Settings sidebar, none at all), so it was easy for one selector to
+   define a state that the next one simply forgot. Everything below is
+   paint-only — color, border, shadow, cursor — never layout, so it's safe
+   to drop onto any of Obsidian's own structural elements without fighting
+   their flex/grid rules.
+   ========================================================================== */
+
+// Card-like surface shared by text inputs, search inputs, and dropdowns.
+@mixin atom-surface($bg: var(--background-modifier-form-field)) {
+    background-color: $bg;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 6px;
+    color: var(--text-normal);
+    transition:
+        border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out,
+        background-color 0.15s ease-in-out;
+}
+
+// The one definition of "hovered / focused" for form-control-like
+// elements. :focus and :focus-visible are declared side by side so a
+// state can never silently fall through to Obsidian/Chromium's native
+// ring — that gap between separately-declared states (and between two
+// files disagreeing about them) was the actual cause of styling dropping
+// out on interaction.
+@mixin atom-focus-ring($accent: var(--interactive-accent), $glow-rgb: var(--interactive-accent-rgb)) {
+    &:hover {
+        border-color: var(--background-modifier-border-hover);
+    }
+
+    &:focus,
+    &:focus-visible {
+        border-color: $accent;
+        box-shadow: 0 0 0 2px rgba($glow-rgb, 0.25);
+        outline: none;
+    }
+}
+
+// Strips the native outline once, up front, on a custom control — always
+// pair with atom-focus-ring so the *replacement* ring is declared in the
+// same breath as the removal, never in a separate rule that a later
+// import could end up winning against.
+@mixin no-native-outline {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+// Shared visual language for a clickable nav row. The File Explorer tree
+// and the Settings modal's vertical-tab nav are structurally unrelated
+// (different DOM, different classes) but should look and behave
+// identically. $active-weight is the one intentional difference between
+// them, kept as a parameter rather than a copy-pasted override.
+@mixin atom-nav-item($active-weight: 600) {
+    color: var(--text-muted);
+    border-radius: 4px;
+    cursor: pointer;
+    transition:
+        background-color 0.1s ease,
+        color 0.1s ease;
+
+    &:hover {
+        color: var(--text-normal);
+        background-color: var(--interactive-hover);
+    }
+
+    &.is-active {
+        color: var(--text-accent);
+        background-color: var(--interactive-selected);
+        font-weight: $active-weight;
+    }
+
+    &:focus-visible {
+        box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.25);
+        outline: none;
+    }
+}

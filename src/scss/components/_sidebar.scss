@@ -1,24 +1,66 @@
+/* ==========================================================================
+   Sidebar — Atom One Pro
+   Two structurally unrelated regions that both happen to be called
+   "sidebar": the File Explorer tree, and the Settings modal's own
+   vertical-tab navigation. The latter was entirely unstyled before this
+   pass — it shares no classes with the file tree, so nothing here could
+   ever have reached it, which is why General / Appearance / Hotkeys /
+   Core plugins / Community plugins were falling back to Obsidian's raw
+   default nav, outline and all.
+   ========================================================================== */
+
+// ---------------------------------------------------------------------
+// 1. File Explorer tree
+// ---------------------------------------------------------------------
 .nav-folder-title,
 .nav-file-title,
 .tree-item-self {
-  color: var(--text-muted);
-  font-weight: 500;
-  border-radius: 4px;
-  padding: 4px 8px;
-  transition: background-color 0.1s ease, color 0.1s ease;
-
-  &:hover {
-    color: var(--text-normal);
-    background-color: var(--interactive-hover);
-  }
-
-  &.is-active {
-    color: var(--text-accent);
-    background-color: var(--interactive-selected);
-    font-weight: 600;
-  }
+    @include atom-nav-item;
+    font-weight: 500;
+    padding: 4px 8px;
 }
 
 .nav-folder-collapse-indicator {
-  color: var(--text-faint);
+    color: var(--text-faint);
+}
+
+// ---------------------------------------------------------------------
+// 2. Settings modal navigation (.vertical-tab-header)
+//    General / Editor / Appearance / Hotkeys / Core plugins / Community
+//    plugins, and every installed plugin's own settings tab, all live
+//    here.
+// ---------------------------------------------------------------------
+.vertical-tab-header {
+    background-color: var(--background-secondary);
+    border-right: 1px solid var(--background-modifier-border);
+}
+
+.vertical-tab-header-group-title {
+    color: var(--text-faint);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.vertical-tab-nav-item {
+    @include atom-nav-item;
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+// ---------------------------------------------------------------------
+// 3. Left ribbon
+// ---------------------------------------------------------------------
+.side-dock-ribbon-tab,
+.side-dock-ribbon-action {
+    color: var(--text-muted);
+    opacity: 0.85;
+    transition:
+        color 0.15s ease,
+        opacity 0.15s ease;
+
+    &:hover,
+    &.is-active {
+        color: var(--text-accent);
+        opacity: 1;
+    }
 }

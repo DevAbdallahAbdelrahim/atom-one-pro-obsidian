@@ -1,347 +1,626 @@
 /* ==========================================================================
-   Atom One Pro Theme for Obsidian v2.0.0
+   Atom One Pro Theme for Obsidian v1.0.0
    Built with Native Rust Engine (Cross-Platform & Zero Node.js)
    ========================================================================== */
 
+@charset "UTF-8";
+/* ==========================================================================
+   Variables — Atom One Pro
+   This file must only ever hold variables and custom-property definitions
+   — never selectors. The version this replaces had a set of input-styling
+   rules pasted in here, targeting the exact same selectors as
+   components/_inputs.scss at the exact same specificity. Because Sass (and
+   grass) resolve same-specificity ties by import order, the two files were
+   silently fighting over background/border/padding/box-shadow every time
+   either one was touched — that's the actual mechanism behind styling
+   "dropping off" on hover and focus. Keep component rules out of here.
+   ========================================================================== */
 .theme-dark {
-    --atom-bg-h: 220;
-    --atom-bg-s: 13%;
-    --background-primary: hsl(var(--atom-bg-h), var(--atom-bg-s), 18%);
-    --background-primary-alt: hsl(var(--atom-bg-h), var(--atom-bg-s), 16%);
-    --background-secondary: hsl(var(--atom-bg-h), var(--atom-bg-s), 15%);
-    --background-secondary-alt: hsl(var(--atom-bg-h), var(--atom-bg-s), 13%);
-    --background-modifier-border: #333842;
-    --background-modifier-border-hover: #4b5263;
-    --text-normal: #abb2bf;
-    --text-muted: #828b99;
-    --text-faint: #5c6370;
-    --text-accent: #61afef;
-    --atom-red: #e06c75;
-    --atom-orange: #d19a66;
-    --atom-yellow: #e5c07b;
-    --atom-green: #98c379;
-    --atom-cyan: #56b6c2;
-    --atom-blue: #61afef;
-    --atom-purple: #c678dd;
-    --atom-comment: #5c6370;
+  --background-primary: #282c34;
+  --background-primary-alt: #24272e;
+  --background-secondary: #21252b;
+  --background-secondary-alt: #282c34;
+  --background-modifier-form-field: #1b1d23;
+  --background-modifier-border: #3e4451;
+  --background-modifier-border-hover: #505768;
+  --background-modifier-border-focus: #61afef;
+  --text-normal: #abb2bf;
+  --text-muted: #5c6370;
+  --text-faint: #40454e;
+  --text-accent: #61afef;
+  --text-accent-hover: #86c2f3;
+  --interactive-accent: #61afef;
+  --interactive-accent-hover: #528bff;
+  --interactive-accent-rgb: 97, 175, 239;
+  --text-on-accent: #282c34;
+  --background-modifier-error: #e06c75;
+  --background-modifier-error-hover: #e78e95;
+  --background-modifier-error-rgb: 224, 108, 117;
+  --interactive-hover: rgba(255, 255, 255, 0.05);
+  --interactive-selected: rgba(var(--interactive-accent-rgb), 0.12);
+  --titlebar-background: #181a1f;
+  --status-bar-background: #181a1f;
+  --tab-container-background: #181a1f;
+  --tab-background-active: #282c34;
+  --search-icon-color: #5c6370;
+  --search-icon-size: 14px;
+  --search-clear-button-color: #5c6370;
+  --search-clear-button-size: 14px;
+  --atom-red: #e06c75;
+  --atom-orange: #d19a66;
+  --atom-yellow: #e5c07b;
+  --atom-green: #98c379;
+  --atom-blue: #61afef;
+  --atom-cyan: #56b6c2;
+  --atom-purple: #c678dd;
+  --atom-comment: #5c6370;
 }
 
-.theme-light {
-    --background-primary: #fafafa;
-    --background-secondary: #eaeaeb;
-    --text-normal: #383a42;
-    --text-muted: #696c77;
-    --text-accent: #4078f2;
-    --atom-red: #e45649;
-    --atom-orange: #986801;
-    --atom-yellow: #c18401;
-    --atom-green: #50a14f;
-    --atom-cyan: #0184bc;
-    --atom-blue: #4078f2;
-    --atom-purple: #a626a4;
-    --atom-comment: #a0a1a7;
-}
-
+/* ==========================================================================
+   Mixins — Atom One Pro
+   Shared interaction patterns for every interactive control in the theme.
+   Centralising these is what actually fixes the reported bug: previously
+   each component declared its own one-off :hover/:focus rules (or, for
+   the Settings sidebar, none at all), so it was easy for one selector to
+   define a state that the next one simply forgot. Everything below is
+   paint-only — color, border, shadow, cursor — never layout, so it's safe
+   to drop onto any of Obsidian's own structural elements without fighting
+   their flex/grid rules.
+   ========================================================================== */
 body {
-    font-family: var(
-        --font-interface,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        sans-serif
-    );
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+  font-family: var(--font-interface, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 .workspace-leaf,
 .workspace-split,
 .workspace-tabs {
-    border-color: var(--background-modifier-border);
+  border-color: var(--background-modifier-border);
 }
 
 ::selection {
-    background-color: var(--interactive-selected);
+  background-color: var(--interactive-selected);
 }
 
+/* ==========================================================================
+   Tabs — Atom One Pro
+   The workspace tab strip: its container, individual tab headers, and
+   the active-tab state.
+
+   The container's own border-bottom already existed in the original
+   file — it wasn't actually missing. It was reading as missing because
+   the tab strip and the workspace behind it were both sitting on
+   Obsidian's similar generic grays, so a 1px line between two
+   near-identical surfaces barely registers. base/_variables.scss now
+   gives the strip its own --tab-container-background, one step darker
+   than the panel, so this divider (and the tabs sitting on it) actually
+   reads as a boundary.
+   ========================================================================== */
 .workspace-tab-header-container {
-    background-color: var(--tab-container-background);
-    border-bottom: 1px solid var(--background-modifier-border);
+  background-color: var(--tab-container-background);
+  border-bottom: 1px solid var(--background-modifier-border);
 }
 
 .workspace-tab-header {
-    background-color: var(--tab-container-background);
-    color: var(--text-muted);
-    border-right: 1px solid var(--background-modifier-border);
-    transition: all 0.15s ease-in-out;
+  background-color: var(--tab-container-background);
+  color: var(--text-muted);
+  border-right: 1px solid var(--background-modifier-border);
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
 }
 .workspace-tab-header:hover {
-    color: var(--text-normal);
-    background-color: var(--interactive-hover);
+  color: var(--text-normal);
+  background-color: var(--interactive-hover);
 }
 .workspace-tab-header.is-active {
-    background-color: var(--tab-background-active);
-    color: var(--text-normal);
-    box-shadow: inset 0 2px 0 0 var(--text-accent);
+  background-color: var(--tab-background-active);
+  color: var(--text-normal);
+  border-top: 2px solid var(--interactive-accent);
 }
 
+/* ==========================================================================
+   Sidebar — Atom One Pro
+   Two structurally unrelated regions that both happen to be called
+   "sidebar": the File Explorer tree, and the Settings modal's own
+   vertical-tab navigation. The latter was entirely unstyled before this
+   pass — it shares no classes with the file tree, so nothing here could
+   ever have reached it, which is why General / Appearance / Hotkeys /
+   Core plugins / Community plugins were falling back to Obsidian's raw
+   default nav, outline and all.
+   ========================================================================== */
 .nav-folder-title,
 .nav-file-title,
 .tree-item-self {
-    color: var(--text-muted);
-    font-weight: 500;
-    border-radius: 4px;
-    padding: 4px 8px;
-    transition:
-        background-color 0.1s ease,
-        color 0.1s ease;
+  color: var(--text-muted);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.1s ease, color 0.1s ease;
+  font-weight: 500;
+  padding: 4px 8px;
 }
 .nav-folder-title:hover,
 .nav-file-title:hover,
 .tree-item-self:hover {
-    color: var(--text-normal);
-    background-color: var(--interactive-hover);
+  color: var(--text-normal);
+  background-color: var(--interactive-hover);
 }
 .nav-folder-title.is-active,
 .nav-file-title.is-active,
 .tree-item-self.is-active {
-    color: var(--text-accent);
-    background-color: var(--interactive-selected);
-    font-weight: 600;
+  color: var(--text-accent);
+  background-color: var(--interactive-selected);
+  font-weight: 600;
+}
+.nav-folder-title:focus-visible,
+.nav-file-title:focus-visible,
+.tree-item-self:focus-visible {
+  box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.25);
+  outline: none;
 }
 
 .nav-folder-collapse-indicator {
-    color: var(--text-faint);
+  color: var(--text-faint);
 }
 
-.modal.mod-settings .vertical-tab-content {
-    box-sizing: border-box;
-    padding: 20px 28px;
+.vertical-tab-header {
+  background-color: var(--background-secondary);
+  border-right: 1px solid var(--background-modifier-border);
 }
 
+.vertical-tab-header-group-title {
+  color: var(--text-faint);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.vertical-tab-nav-item {
+  color: var(--text-muted);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.1s ease, color 0.1s ease;
+  padding: 6px 12px;
+  font-size: 13px;
+}
+.vertical-tab-nav-item:hover {
+  color: var(--text-normal);
+  background-color: var(--interactive-hover);
+}
+.vertical-tab-nav-item.is-active {
+  color: var(--text-accent);
+  background-color: var(--interactive-selected);
+  font-weight: 600;
+}
+.vertical-tab-nav-item:focus-visible {
+  box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.25);
+  outline: none;
+}
+
+.side-dock-ribbon-tab,
+.side-dock-ribbon-action {
+  color: var(--text-muted);
+  opacity: 0.85;
+  transition: color 0.15s ease, opacity 0.15s ease;
+}
+.side-dock-ribbon-tab:hover, .side-dock-ribbon-tab.is-active,
+.side-dock-ribbon-action:hover,
+.side-dock-ribbon-action.is-active {
+  color: var(--text-accent);
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Settings UI — Atom One Pro
+   .setting-item rows, toggle switches, and dropdowns inside Settings,
+   Community Plugins options pages, and the Style Settings plugin pane.
+   ========================================================================== */
 .setting-item {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px 16px;
-    padding: 14px 0;
-    border-top: 1px solid var(--background-modifier-border);
+  border-top: 1px solid var(--background-modifier-border);
+  padding: 16px 0;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 8px;
+  justify-content: space-between;
+  align-items: center;
 }
 .setting-item:first-child {
-    border-top: none;
+  border-top: none;
+}
+.setting-item .setting-item-info {
+  flex: 1 1 auto;
+  margin-right: 16px;
+}
+.setting-item .setting-item-info .setting-item-name {
+  color: var(--text-normal);
+  font-weight: 600;
+  font-size: 14px;
+}
+.setting-item .setting-item-info .setting-item-description {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+.setting-item .setting-item-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.setting-item-info {
-    flex: 1 1 240px;
-    min-width: 0;
+.setting-item-heading {
+  border-top: none;
+  padding-top: 24px;
+  padding-bottom: 8px;
+}
+.setting-item-heading .setting-item-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--interactive-accent);
 }
 
-.setting-item-name {
-    font-weight: 600;
-    color: var(--text-normal);
+.checkbox-container {
+  background-color: var(--background-modifier-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.15s ease;
+}
+.checkbox-container:hover {
+  background-color: var(--background-modifier-border-hover);
+}
+.checkbox-container.is-enabled {
+  background-color: var(--interactive-accent);
+}
+.checkbox-container.is-enabled:hover {
+  background-color: var(--interactive-accent-hover);
+}
+.checkbox-container:focus-visible {
+  box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.35);
+  outline: none;
 }
 
-.setting-item-description {
-    font-size: 0.85em;
-    color: var(--text-muted);
-    margin-top: 4px;
+.dropdown {
+  background-color: var(--background-modifier-form-field);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  color: var(--text-normal);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  padding: 4px 28px 4px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235c6370' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.dropdown:hover {
+  border-color: var(--background-modifier-border-hover);
+}
+.dropdown:focus, .dropdown:focus-visible {
+  border-color: var(--interactive-accent);
+  box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.25);
+  outline: none;
 }
 
 .status-bar {
-    background-color: var(--status-bar-background);
-    border-top: 1px solid var(--background-modifier-border);
-    color: var(--text-muted);
-    font-size: 0.8em;
+  background-color: var(--status-bar-background);
+  border-top: 1px solid var(--background-modifier-border);
+  color: var(--text-muted);
+  font-size: 0.8em;
 }
 
 .titlebar {
-    background-color: var(--titlebar-background);
-    border-bottom: 1px solid var(--background-modifier-border);
+  background-color: var(--titlebar-background);
+  border-bottom: 1px solid var(--background-modifier-border);
 }
 
-.cm-s-obsidian code,
-.cm-s-obsidian pre,
-.markdown-rendered code,
-.markdown-rendered pre {
-    font-family: var(
-        --font-monospace,
-        "JetBrains Mono",
-        "Fira Code",
-        monospace
-    );
+/* ==========================================================================
+   Inputs & Form Controls — Atom One Pro
+   Covers text/search/number/email/password inputs, textareas, selects,
+   and Obsidian's search-input-container (the Settings search bar, the
+   Community Plugins search, and in-file Tab search all share this one
+   class — one rule set covers all three).
+
+   Rule for this file: paint only — color, border, radius, shadow,
+   transition — with one deliberate, documented exception below.
+   ========================================================================== */
+input[type=text],
+input[type=search],
+input[type=number],
+input[type=email],
+input[type=password],
+textarea,
+select {
+  background-color: var(--background-modifier-form-field);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  color: var(--text-normal);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-family: inherit;
+}
+input[type=text]:hover,
+input[type=search]:hover,
+input[type=number]:hover,
+input[type=email]:hover,
+input[type=password]:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--background-modifier-border-hover);
+}
+input[type=text]:focus, input[type=text]:focus-visible,
+input[type=search]:focus,
+input[type=search]:focus-visible,
+input[type=number]:focus,
+input[type=number]:focus-visible,
+input[type=email]:focus,
+input[type=email]:focus-visible,
+input[type=password]:focus,
+input[type=password]:focus-visible,
+textarea:focus,
+textarea:focus-visible,
+select:focus,
+select:focus-visible {
+  border-color: var(--interactive-accent);
+  box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.25);
+  outline: none;
+}
+input[type=text]::placeholder,
+input[type=search]::placeholder,
+input[type=number]::placeholder,
+input[type=email]::placeholder,
+input[type=password]::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: var(--text-muted);
+}
+input[type=text]:disabled,
+input[type=search]:disabled,
+input[type=number]:disabled,
+input[type=email]:disabled,
+input[type=password]:disabled,
+textarea:disabled,
+select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-.cm-inline-code,
-code {
-    color: var(--atom-orange);
-    background-color: var(--background-secondary);
-    border-radius: 4px;
-    padding: 2px 6px;
+.search-input-container input {
+  background-color: var(--background-modifier-form-field);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  color: var(--text-normal);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.search-input-container input:hover {
+  border-color: var(--background-modifier-border-hover);
+}
+.search-input-container input:focus, .search-input-container input:focus-visible {
+  border-color: var(--interactive-accent);
+  box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.25);
+  outline: none;
+}
+.search-input-container:focus-within input {
+  border-color: var(--interactive-accent);
+  box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.25);
+}
+.search-input-container .search-input-clear-button {
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+.search-input-container .search-input-clear-button:hover {
+  opacity: 1;
 }
 
-.cm-token-comment,
-.token.comment {
-    color: var(--atom-comment);
-    font-style: italic;
+/* ==========================================================================
+   Buttons — Atom One Pro
+   Default buttons, primary actions (.mod-cta), and destructive actions
+   (.mod-warning). Every variant locks its focus state through the same
+   shared mixins as inputs/settings/sidebar, so a button can't quietly
+   lose its ring the way inputs previously did.
+   ========================================================================== */
+button {
+  background-color: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  color: var(--text-normal);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+button:hover {
+  border-color: var(--background-modifier-border-hover);
+}
+button:focus, button:focus-visible {
+  border-color: var(--interactive-accent);
+  box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.25);
+  outline: none;
+}
+button:hover {
+  background-color: var(--background-modifier-border-hover);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-.cm-token-keyword,
-.token.keyword {
-    color: var(--atom-purple);
+button.mod-cta {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+  border: none;
+  font-weight: 600;
+}
+button.mod-cta:hover {
+  border-color: var(--background-modifier-border-hover);
+}
+button.mod-cta:focus, button.mod-cta:focus-visible {
+  border-color: var(--interactive-accent);
+  box-shadow: 0 0 0 2px rgba(var(--interactive-accent-rgb), 0.25);
+  outline: none;
+}
+button.mod-cta:hover {
+  background-color: var(--interactive-accent-hover);
 }
 
-.cm-token-function,
-.token.function {
-    color: var(--atom-blue);
+button.mod-warning {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  background-color: var(--background-modifier-error);
+  color: var(--text-on-accent);
+  border: none;
+  font-weight: 600;
+}
+button.mod-warning:hover {
+  border-color: var(--background-modifier-border-hover);
+}
+button.mod-warning:focus, button.mod-warning:focus-visible {
+  border-color: var(--background-modifier-error);
+  box-shadow: 0 0 0 2px rgba(var(--background-modifier-error-rgb), 0.25);
+  outline: none;
+}
+button.mod-warning:hover {
+  background-color: var(--background-modifier-error-hover);
 }
 
-.cm-token-string,
-.token.string {
-    color: var(--atom-green);
+.cm-s-obsidian code, .cm-s-obsidian pre, .markdown-rendered code, .markdown-rendered pre {
+  font-family: var(--font-monospace, "JetBrains Mono", "Fira Code", monospace);
 }
 
-.cm-token-number,
-.token.number {
-    color: var(--atom-orange);
+.cm-inline-code, code {
+  color: var(--atom-orange);
+  background-color: var(--background-secondary);
+  border-radius: 4px;
+  padding: 2px 6px;
 }
 
-.cm-token-property,
-.token.property {
-    color: var(--atom-red);
+.cm-token-comment, .token.comment {
+  color: var(--atom-comment);
+  font-style: italic;
 }
 
-.cm-token-operator,
-.token.operator {
-    color: var(--atom-cyan);
+.cm-token-keyword, .token.keyword {
+  color: var(--atom-purple);
 }
 
-.cm-token-type,
-.token.class-name {
-    color: var(--atom-yellow);
+.cm-token-function, .token.function {
+  color: var(--atom-blue);
 }
 
-.markdown-rendered h1,
-.markdown-rendered .cm-header-1,
-.cm-sizer h1,
-.cm-sizer .cm-header-1 {
-    color: var(--atom-red);
-    font-weight: 700;
-}
-.markdown-rendered h2,
-.markdown-rendered .cm-header-2,
-.cm-sizer h2,
-.cm-sizer .cm-header-2 {
-    color: var(--atom-orange);
-    font-weight: 700;
-}
-.markdown-rendered h3,
-.markdown-rendered .cm-header-3,
-.cm-sizer h3,
-.cm-sizer .cm-header-3 {
-    color: var(--atom-yellow);
-    font-weight: 600;
-}
-.markdown-rendered h4,
-.markdown-rendered .cm-header-4,
-.cm-sizer h4,
-.cm-sizer .cm-header-4 {
-    color: var(--atom-green);
-    font-weight: 600;
-}
-.markdown-rendered h5,
-.markdown-rendered .cm-header-5,
-.cm-sizer h5,
-.cm-sizer .cm-header-5 {
-    color: var(--atom-blue);
-    font-weight: 600;
-}
-.markdown-rendered h6,
-.markdown-rendered .cm-header-6,
-.cm-sizer h6,
-.cm-sizer .cm-header-6 {
-    color: var(--atom-purple);
-    font-weight: 600;
+.cm-token-string, .token.string {
+  color: var(--atom-green);
 }
 
-body.atom-mono-headings .markdown-rendered h1,
-body.atom-mono-headings .markdown-rendered h2,
-body.atom-mono-headings .markdown-rendered h3,
-body.atom-mono-headings .markdown-rendered h4,
-body.atom-mono-headings .markdown-rendered h5,
-body.atom-mono-headings .markdown-rendered h6,
-body.atom-mono-headings .markdown-rendered .cm-header-1,
-body.atom-mono-headings .markdown-rendered .cm-header-2,
-body.atom-mono-headings .markdown-rendered .cm-header-3,
-body.atom-mono-headings .markdown-rendered .cm-header-4,
-body.atom-mono-headings .markdown-rendered .cm-header-5,
-body.atom-mono-headings .markdown-rendered .cm-header-6,
-body.atom-mono-headings .cm-sizer h1,
-body.atom-mono-headings .cm-sizer h2,
-body.atom-mono-headings .cm-sizer h3,
-body.atom-mono-headings .cm-sizer h4,
-body.atom-mono-headings .cm-sizer h5,
-body.atom-mono-headings .cm-sizer h6,
-body.atom-mono-headings .cm-sizer .cm-header-1,
-body.atom-mono-headings .cm-sizer .cm-header-2,
-body.atom-mono-headings .cm-sizer .cm-header-3,
-body.atom-mono-headings .cm-sizer .cm-header-4,
-body.atom-mono-headings .cm-sizer .cm-header-5,
-body.atom-mono-headings .cm-sizer .cm-header-6 {
-    color: var(--text-normal);
+.cm-token-number, .token.number {
+  color: var(--atom-orange);
+}
+
+.cm-token-property, .token.property {
+  color: var(--atom-red);
+}
+
+.cm-token-operator, .token.operator {
+  color: var(--atom-cyan);
+}
+
+.cm-token-type, .token.class-name {
+  color: var(--atom-yellow);
+}
+
+.markdown-rendered h1, .markdown-rendered .cm-header-1, .cm-sizer h1, .cm-sizer .cm-header-1 {
+  color: var(--atom-red);
+  font-weight: 700;
+}
+.markdown-rendered h2, .markdown-rendered .cm-header-2, .cm-sizer h2, .cm-sizer .cm-header-2 {
+  color: var(--atom-orange);
+  font-weight: 700;
+}
+.markdown-rendered h3, .markdown-rendered .cm-header-3, .cm-sizer h3, .cm-sizer .cm-header-3 {
+  color: var(--atom-yellow);
+  font-weight: 600;
+}
+.markdown-rendered h4, .markdown-rendered .cm-header-4, .cm-sizer h4, .cm-sizer .cm-header-4 {
+  color: var(--atom-green);
+  font-weight: 600;
+}
+.markdown-rendered h5, .markdown-rendered .cm-header-5, .cm-sizer h5, .cm-sizer .cm-header-5 {
+  color: var(--atom-blue);
+  font-weight: 600;
+}
+.markdown-rendered h6, .markdown-rendered .cm-header-6, .cm-sizer h6, .cm-sizer .cm-header-6 {
+  color: var(--atom-purple);
+  font-weight: 600;
+}
+
+body.atom-mono-headings .markdown-rendered h1, body.atom-mono-headings .markdown-rendered h2, body.atom-mono-headings .markdown-rendered h3, body.atom-mono-headings .markdown-rendered h4, body.atom-mono-headings .markdown-rendered h5, body.atom-mono-headings .markdown-rendered h6,
+body.atom-mono-headings .markdown-rendered .cm-header-1, body.atom-mono-headings .markdown-rendered .cm-header-2, body.atom-mono-headings .markdown-rendered .cm-header-3, body.atom-mono-headings .markdown-rendered .cm-header-4, body.atom-mono-headings .markdown-rendered .cm-header-5, body.atom-mono-headings .markdown-rendered .cm-header-6, body.atom-mono-headings .cm-sizer h1, body.atom-mono-headings .cm-sizer h2, body.atom-mono-headings .cm-sizer h3, body.atom-mono-headings .cm-sizer h4, body.atom-mono-headings .cm-sizer h5, body.atom-mono-headings .cm-sizer h6,
+body.atom-mono-headings .cm-sizer .cm-header-1, body.atom-mono-headings .cm-sizer .cm-header-2, body.atom-mono-headings .cm-sizer .cm-header-3, body.atom-mono-headings .cm-sizer .cm-header-4, body.atom-mono-headings .cm-sizer .cm-header-5, body.atom-mono-headings .cm-sizer .cm-header-6 {
+  color: var(--text-normal);
 }
 
 .cm-gutters {
-    background-color: var(--background-primary);
-    color: var(--text-faint);
-    border-right: 1px solid var(--background-modifier-border);
+  background-color: var(--background-primary);
+  color: var(--text-faint);
+  border-right: 1px solid var(--background-modifier-border);
 }
 
 .cm-activeLineGutter {
-    color: var(--text-normal);
-    background-color: var(--interactive-hover);
+  color: var(--text-normal);
+  background-color: var(--interactive-hover);
 }
 
 .cm-activeLine {
-    background-color: hsla(220deg, 13%, 24%, 0.3);
+  background-color: hsla(220deg, 13%, 24%, 0.3);
 }
 
 .callout {
-    border-radius: 6px;
-    border-left: 4px solid var(--text-accent);
-    background-color: var(--background-secondary);
-    padding: 12px 16px;
+  border-radius: 6px;
+  border-left: 4px solid var(--text-accent);
+  background-color: var(--background-secondary);
+  padding: 12px 16px;
 }
-.callout[data-callout="info"] {
-    border-left-color: var(--atom-blue);
-    background-color: hsla(207deg, 82%, 66%, 0.08);
+.callout[data-callout=info] {
+  border-left-color: var(--atom-blue);
+  background-color: hsla(207deg, 82%, 66%, 0.08);
 }
-.callout[data-callout="warning"] {
-    border-left-color: var(--atom-yellow);
-    background-color: hsla(39deg, 67%, 69%, 0.08);
+.callout[data-callout=warning] {
+  border-left-color: var(--atom-yellow);
+  background-color: hsla(39deg, 67%, 69%, 0.08);
 }
-.callout[data-callout="danger"] {
-    border-left-color: var(--atom-red);
-    background-color: hsla(355deg, 65%, 65%, 0.08);
+.callout[data-callout=danger] {
+  border-left-color: var(--atom-red);
+  background-color: hsla(355deg, 65%, 65%, 0.08);
 }
-.callout[data-callout="success"] {
-    border-left-color: var(--atom-green);
-    background-color: hsla(95deg, 38%, 62%, 0.08);
+.callout[data-callout=success] {
+  border-left-color: var(--atom-green);
+  background-color: hsla(95deg, 38%, 62%, 0.08);
 }
 
 .table-view-table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 .table-view-table th {
-    border-bottom: 2px solid var(--background-modifier-border);
-    color: var(--text-normal);
+  border-bottom: 2px solid var(--background-modifier-border);
+  color: var(--text-normal);
 }
 .table-view-table td {
-    border-bottom: 1px solid var(--background-modifier-border);
+  border-bottom: 1px solid var(--background-modifier-border);
 }
 
 body.atom-tab-accent .workspace-tab-header.is-active {
-    box-shadow: inset 0 2px 0 0 var(--text-accent);
+  box-shadow: inset 0 2px 0 0 var(--text-accent);
 }
